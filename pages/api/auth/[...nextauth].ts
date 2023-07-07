@@ -30,14 +30,14 @@ export const authOptions: AuthOptions = {
                     where: { email: credentials.email },
                 });
 
-                if (!user || user?.hashedPassword) {
+                if (!user || !user?.hashedPassword) {
                     throw new Error("Invalid credentials");
                 }
 
                 const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
 
                 if (!isCorrectPassword) {
-                    throw new Error("Invalid credentials");
+                    throw new Error("Invalid credentials66");
                 }
 
                 return user;
