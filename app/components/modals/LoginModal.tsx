@@ -51,6 +51,11 @@ export default function LoginModal() {
     });
   };
 
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome Back" subtitle="Login to your account" />
@@ -97,12 +102,12 @@ export default function LoginModal() {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row items-center justify-center gap-2">
-          <div className="">Already have an account?</div>
+          <div className="">First time using GetBookeys?</div>
           <div
             className="text-neutral-800 cursor-pointer hover:underline"
-            onClick={registerModal.onClose}
+            onClick={toggle}
           >
-            Login
+            Create an account
           </div>
         </div>
       </div>
