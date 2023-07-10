@@ -1,13 +1,13 @@
 "use client";
-import React, { useMemo, useState } from "react";
-import Modal from "./Modal";
 import useRentModal from "@/app/hooks/useRentModal";
-import Heading from "../Heading";
-import { categories } from "../navbar/Categories";
-import CategoryInput from "../inputs/CategoryInput";
+import dynamic from "next/dynamic";
+import React, { useMemo, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import Heading from "../Heading";
+import CategoryInput from "../inputs/CategoryInput";
 import CountrySelect from "../inputs/CountrySelect";
-import Map from "../Map";
+import { categories } from "../navbar/Categories";
+import Modal from "./Modal";
 
 enum STEPS {
   CATEGORY = 0,
@@ -45,6 +45,14 @@ export default function RentModal() {
 
   const category = watch("category");
   const location = watch("location");
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("../Map"), {
+        ssr: false,
+      }),
+    [location]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -110,7 +118,7 @@ export default function RentModal() {
           value={location}
           onChange={(value) => setCustomValue("location", value)}
         />
-        <Map />
+        <Map center={location?.latlng} />
       </div>
     );
   }
