@@ -45,6 +45,7 @@ export default function CategoryBox({
 
     router.push(url);
   }, [label, params, router]);
+ 
   return (
     <div
       onClick={handleClick}
