@@ -1,12 +1,11 @@
 "use client";
-import { Reservation } from ".prisma/client";
 import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import { categories } from "@/app/components/navbar/Categories";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import axios from "axios";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -20,12 +19,14 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reservations?: Reservation[];
+  reservations?: SafeReservation[];
   listing: SafeListing & {
     user: SafeUser;
   };
   currentUser?: SafeUser | null;
 }
+
+import { Range } from "react-date-range";
 
 export default function ListingClient({
   listing,
@@ -51,7 +52,7 @@ export default function ListingClient({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) return loginModal.onOpen();
@@ -74,7 +75,7 @@ export default function ListingClient({
       .finally(() => setIsLoading(false));
   }, [currentUser, dateRange, totalPrice, listing?.id, router, loginModal]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInCalendarDays(
         dateRange.endDate,
@@ -83,7 +84,7 @@ export default function ListingClient({
       if (dayCount && listing.price) setTotalPrice(dayCount * listing.price);
       else setTotalPrice(listing.price);
     }
-  }, [dateRange, listing.price])
+  }, [dateRange, listing.price]);
 
   const category = useMemo(() => {
     return categories.find((item) => item.label === listing.category);
@@ -114,7 +115,7 @@ export default function ListingClient({
               <ListingReservation
                 price={listing.price}
                 totalPrice={totalPrice}
-                onChange={(value) => setDateRange(value)}
+                onChangeDate={(value: Range) => setDateRange(value)}
                 dateRange={dateRange}
                 onSubmit={onCreateReservation}
                 disabled={isLoading}
