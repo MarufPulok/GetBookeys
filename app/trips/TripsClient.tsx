@@ -59,6 +59,6 @@ export default function TripsClient({
           />
         ))}
       </div>
-    </Container>
+    </Container> 
   );
 }
