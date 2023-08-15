@@ -7,4 +7,4 @@ interface HomeProps {
 
 export default function Home({ searchParams }: HomeProps) {
   return <GetBookeysMain searchParams={searchParams} />;
-}
+} 

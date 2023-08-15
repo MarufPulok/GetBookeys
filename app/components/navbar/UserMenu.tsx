@@ -41,7 +41,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer "
           onClick={onRent}
         >
-          GetBookeys of your home
+          Airbnb of your home
         </div>
         <div
           onClick={toggleOpen}
@@ -62,7 +62,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
                 <MenuItem onClick={() => router.push('/favourites')} label="My favourites" />
                 <MenuItem onClick={() => router.push('/reservations')} label="My reservations" />
                 <MenuItem onClick={() => router.push("/properties")} label="My properties" />
-                <MenuItem onClick={rentModal.onOpen} label="Getbookeys my home" />
+                <MenuItem onClick={rentModal.onOpen} label="Airbnb my home" />
                 <hr />
                 <MenuItem
                   onClick={() => {
